@@ -1,0 +1,84 @@
+<script src="/assets/js/datatables.js"></script>
+<script>
+  $(function () {
+    $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
+    jQuery('.sale-table').dataTable({
+      pagingType: "full_numbers",
+      columnDefs: [{ orderable: false, targets: [4] }],
+      // ordering: false,
+      pageLength: 10,
+      lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+      order: [[0, 'desc']]
+    });
+  });
+</script>
+
+<main id="main-container">
+
+  <!-- Page Header -->
+  <div class="content bg-gray-lighter">
+    <div class="row items-push">
+      <div class="col-sm-7">
+        <h1 class="page-heading">
+          <%= title %>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+        <ol class="breadcrumb push-10-t">
+          <li>Cloud VDMS</li>
+          <li>Monitoring</li>
+          <li>
+            <a class="link-effect" href="">
+              <%= title %>
+            </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="block">
+      <div class="block-header">
+        <h3 class="block-title">User Activities</h3>
+      </div>
+      <div class="block-content">
+        <table class="table table-bordered table-striped table-vcenter sale-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Username</th>
+              <th>Activity</th>
+              <th>Data</th>
+              <th>IP Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% userLog.rows.map(row => { %>
+            <% const {event, moreInfo} = human(row); %>
+            <tr data-order-id="<%- row.orderId %>">
+              <td>
+                <%= filters.timestamp(row.when) %>
+              </td>
+              <td>
+                <%= row.userId %>
+              </td>
+              <td>
+                <%= event %>
+              </td>
+              <td>
+                <pre class="human-info"><%= moreInfo %></pre>
+              </td>
+              <td class="text-right">
+                <%= row.ipAddress %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

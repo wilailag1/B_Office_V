@@ -1,0 +1,181 @@
+<!-- Sidebar -->
+<nav id="sidebar">
+  <!-- Sidebar Scroll Container -->
+  <div id="sidebar-scroll">
+    <!-- Sidebar Content -->
+    <!-- Adding .sidebar-mini-hide to an element will hide it when the sidebar is in mini mode -->
+    <div class="sidebar-content">
+      <!-- Side Header -->
+      <div class="side-header side-content bg-white-op text-center">
+        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+        <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout"
+          data-action="sidebar_close">
+          <i class="fa fs fa-times"></i>
+        </button>
+        <!-- Themes functionality initialized in App() -> uiHandleTheme() -->
+        <% /* <div class="btn-group pull-right">
+          <button class="btn btn-link text-gray dropdown-toggle" data-toggle="dropdown" type="button">
+            <i class="si si-drop"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right font-s13 sidebar-mini-hide">
+            <li>
+              <a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fs fa-circle text-default pull-right"></i> <span class="font-w600">Default</span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="theme" data-theme="assets/css/themes/amethyst.min.css" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fs fa-circle text-amethyst pull-right"></i> <span class="font-w600">Amethyst</span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="theme" data-theme="assets/css/themes/city.min.css" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fs fa-circle text-city pull-right"></i> <span class="font-w600">City</span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="theme" data-theme="assets/css/themes/flat.min.css" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fs fa-circle text-flat pull-right"></i> <span class="font-w600">Flat</span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="theme" data-theme="assets/css/themes/modern.min.css" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fs fa-circle text-modern pull-right"></i> <span class="font-w600">Modern</span>
+              </a>
+            </li>
+            <li>
+              <a data-toggle="theme" data-theme="assets/css/themes/smooth.min.css" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fs fa-circle text-smooth pull-right"></i> <span class="font-w600">Smooth</span>
+              </a>
+            </li>
+          </ul>
+        </div> */ %>
+        <a class="h5 text-white" href="/app" style="margin-left: -8px;">
+          <% /*<i class="fa fs fa-circle-o-notch text-primary"></i> <span class="h4 font-w600 sidebar-mini-hide">ne</span>
+          */ %>
+          <span class="fa-stack">
+            <i class="fa fs fa-cloud text-primary fa-stack-2x"></i>
+            <i class="fa fs fa-angle-double-up text-white fa-stack-1x" style="top: -14%;width: 85%;"></i>
+          </span>&nbsp;&nbsp;<span class="h4 font-w600 sidebar-mini-hide">VDMS</span>
+        </a>
+      </div>
+      <!-- END Side Header -->
+
+      <!-- Side Content -->
+      <div class="side-content side-content-full">
+        <ul class="nav-main">
+          <li>
+            <a class="active" href="/app/vending/list">
+              <i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span>
+            </a>
+          </li>
+
+          <% if (user.rolePermissionJson.logs || user.rolePermissionJson.saleReport) { %>
+          <li class="nav-main-heading">
+            <span class="sidebar-mini-hide">Monitoring</span>
+          </li>
+          <% } %>
+
+          <% if (user.rolePermissionJson.saleReport) { %>
+          <li>
+            <a class="" href="/app/monitor/sale">
+              <i class="fs si si-graph"></i><span class="sidebar-mini-hide">Sale</span>
+            </a>
+          </li>
+          <% } %>
+
+          <% if (user.rolePermissionJson.logs) { %>
+          <!-- <li>
+            <a class="" href="/app/monitor/vending">
+              <i class="fs icon-chart"></i><span class="sidebar-mini-hide">Vending Machines</span>
+            </a>
+          </li> -->
+
+          <li>
+            <a class="" href="/app/monitor/user">
+              <i class="fa fs fa-user-secret"></i><span class="sidebar-mini-hide">User Activities</span>
+            </a>
+          </li>
+
+          <% } %>
+
+          <!-- <li class="nav-main-heading"><span class="sidebar-mini-hide">Logs</span></li>
+          <li>
+            <a
+              class=""
+              href="#"
+            >
+              <i class="si si-wrench"></i><span class="sidebar-mini-hide">Sale History</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="si si-magic-wand"></i><span class="sidebar-mini-hide">Alarms</span>
+            </a>
+          </li> -->
+          <% if (user.rolePermissionJson.vending) { %>
+          <li class="nav-main-heading">
+            <span class="sidebar-mini-hide">Vending Machine</span>
+          </li>
+          <li>
+            <a href="/app/vending/add">
+              <i class="fa fs fa-plus-square"></i><span class="sidebar-mini-hide">Setup new Machine</span>
+            </a>
+          </li>
+          <li>
+            <a href="/app/vending/list">
+              <i class="fa fs fa-cube"></i><span class="sidebar-mini-hide">Machine list</span>
+            </a>
+          </li>
+          <li>
+            <a class="" href="/app/monitor/vending-log">
+              <i class="fs icon-chart"></i><span class="sidebar-mini-hide">Vending Logs</span>
+            </a>
+          </li>
+          <% } %>
+
+          <% if (user.rolePermissionJson.product) { %>
+          <li class="nav-main-heading">
+            <span class="sidebar-mini-hide">Product Management</span>
+          </li>
+          <li>
+            <a href="/app/product/list">
+              <i class="fa fs fa-cubes"></i><span class="sidebar-mini-hide">Product list</span>
+            </a>
+          </li>
+          <li>
+            <a href="/app/product-qr/list">
+              <i class="fa fs fa-qrcode"></i><span class="sidebar-mini-hide">QR Codes</span>
+            </a>
+          </li>
+          <li>
+            <a href="/app/vending/job">
+              <i class="fa fs fa-tasks"></i><span class="sidebar-mini-hide">Restock</span>
+            </a>
+          </li>
+          <% } %>
+
+          <% if (user.rolePermissionJson.admin) { %>
+          <li class="nav-main-heading">
+            <span class="sidebar-mini-hide">Administration</span>
+          </li>
+          <li>
+            <a href="/app/administration/user">
+              <i class="si si-layers"></i><span class="sidebar-mini-hide">User Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="/app/administration/role">
+              <i class="si si-layers"></i><span class="sidebar-mini-hide">Role Management</span>
+            </a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+      <!-- END Side Content -->
+    </div>
+    <!-- Sidebar Content -->
+  </div>
+  <!-- END Sidebar Scroll Container -->
+</nav>
+<!-- END Sidebar -->

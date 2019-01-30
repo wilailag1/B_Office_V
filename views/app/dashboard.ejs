@@ -1,0 +1,35 @@
+<script src="/assets/js/plugins/chartjsv2/Chart.min.js"></script>
+<script src="/assets/js/pages/base_pages_dashboard_v3.js"></script>
+<script>
+  $(function () {
+    var $dashboard = $('#dashboardContent');
+
+    var dashboardTick = function () {
+      // App.blocks('#vmLogBlock', 'state_loading');
+      $.ajax({
+        method: 'GET',
+        url: '/app/api/dashboard',
+      }).done(function (html) {
+        $dashboard.html(html);
+        // App.blocks('#vmLogBlock', 'state_normal');
+      });
+    }
+
+    setInterval(function () {
+      dashboardTick();
+    }, 5 * 1000);
+
+  });
+</script>
+
+<!-- Main Container -->
+<main id="main-container">
+  <!-- Page Content -->
+  <div id="dashboardContent" class="content content-boxed">
+
+    <%- include('dashboard_body') %>
+
+  </div>
+  <!-- END Page Content -->
+</main>
+<!-- END Main Container -->

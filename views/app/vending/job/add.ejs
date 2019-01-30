@@ -1,0 +1,217 @@
+<!-- Page JS Plugins -->
+<script src="/assets/js/plugins/select2/select2.full.min.js"></script>
+<script>
+  jQuery('.machine-select').select2();
+
+  jQuery('.auto-select')
+    .on('mouseenter', function (e) {
+      e.target.select();
+    })
+    .on('blur', function (e) {
+      var input = e.target;
+
+      if (input.value == '' || (Number(input.value) && isNaN(input.value))) {
+        input.value = 0;
+      }
+    });
+
+</script>
+<!-- <script>
+  jQuery('.product-select').select2({
+    templateResult: function (state) {
+      if (!state.id) {
+        return state.text;
+      }
+      var baseUrl = "/app/product/image";
+      var $state = jQuery(
+        '<div class="product-item"><img style="background-image: url('
+        + baseUrl + '/' + state.element.attributes['data-img'].value.trim() + ')" src="/assets/img/1x1.png" /> '
+        + state.text.trim() + '<div class="price-wrap"><span class="label label-warning"><i class="fa fa-tag"></i> '
+        + state.element.attributes['data-price'].value + '.-</span></div></div>'
+      );
+      return $state;
+    },
+    allowClear: true
+  });
+</script> -->
+
+<main id="main-container">
+  <!-- Page Header -->
+  <div class="content bg-gray-lighter">
+    <div class="row items-push">
+      <div class="col-sm-7">
+        <h1 class="page-heading">
+          <%= headTitle %>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+        <ol class="breadcrumb push-10-t">
+          <li>Cloud VDMS</li>
+          <li>Vending Machine</li>
+          <li><a class="link-effect" href="">
+              <%= headTitle %></a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block">
+          <div class="block-header">
+            <h3 class="block-title">Machine info</h3>
+          </div>
+          <div class="block-content">
+            <% if (lastError.length > 0) { %>
+            <div class="alert alert-danger alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h3 class="font-w300 push-15">Error</h3>
+              <p>
+                <%= lastError %>
+              </p>
+            </div>
+            <% } %>
+            <form class="js-validation-bootstrap form-horizontal" action="" method="post">
+              <% if (jobData.jobId) { %>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="jobId">Job ID</label>
+                <div class="col-md-7">
+                  <input class="form-control" type="text" id="jobId" name="jobId" value="<%= jobData.machineId %>"
+                    readonly />
+                </div>
+              </div>
+              <% } %>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="machineId">Machine <span class="text-danger">*</span></label>
+                <div class="col-md-7">
+                  <select class="machine-select form-control" id="machineId" name="machineId" style="width: 100%;"
+                    value="<%= jobData.machineId %>" data-placeholder="Pick machine to be Restock" <%=isEdit ?
+                    'disabled' : '' %>>
+                    <option></option>
+                    <% machineOptions.map(machine => { %>
+                    <option value="<%= machine.machineId %>" <%=jobData.machineId==machine.machineId ? 'selected' : ''
+                      %>>
+                      <%= machine.name %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="addCoin1">Coin 1</span></label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin1" name="addCoin1" min="0" value="<%= jobData.addCoin1 || 0 %>"
+                    <%=isEdit ? 'disabled' : '' %> />
+                </div>
+
+                <div class="clearfix"></div>
+
+                <!-- <label class="col-md-4 control-label" for="addCoin2">Coin 2</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin2" name="addCoin2" min="0" value="<%= jobData.addCoin2 || 0 %>" <%= isEdit ? 'disabled' : '' %> />
+                </div>
+
+                <div class="clearfix"></div> -->
+
+                <!-- <label class="col-md-4 control-label" for="addCoin5">Coin 5</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin5" name="addCoin5" min="0" value="<%= jobData.addCoin5 || 0 %>" <%= isEdit ? 'disabled' : '' %> />
+                </div>
+
+                <div class="clearfix"></div> -->
+
+                <label class="col-md-4 control-label" for="addCoin10">Coin 10</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin10" name="addCoin10" min="0" value="<%= jobData.addCoin10 || 0 %>"
+                    <%=isEdit ? 'disabled' : '' %> />
+                </div>
+
+                <div class="clearfix"></div>
+
+                <!-- <label class="col-md-4 control-label" for="addCoin20">Banknote 20</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin20" name="addCoin20" min="0" value="<%= jobData.addCoin20 || 0 %>" />
+                </div>
+
+                <div class="clearfix"></div> -->
+
+                <!-- <label class="col-md-4 control-label" for="addCoin50">Banknote 50</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin50" name="addCoin50" min="0" value="<%= jobData.addCoin50 || 0 %>" />
+                </div>
+
+                <div class="clearfix"></div> -->
+
+                <!-- <label class="col-md-4 control-label" for="addCoin100">Banknote 100</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="number" id="addCoin100" name="addCoin100" min="0" value="<%= jobData.addCoin100 || 0 %>" />
+                </div> -->
+
+                <label class="col-md-4 control-label" for="comment">Comment</label>
+                <div class="col-md-4">
+                  <input class="form-control auto-select" type="text" id="comment" name="comment" value="<%= jobData.comment %>"
+                    <%=isEdit ? 'disabled' : '' %> />
+                </div>
+
+                <div class="clearfix"></div>
+
+              </div>
+
+              <div class="row product-grid">
+                <table class="table table-bordered table-striped table-vcenter vending-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 120px"></th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Slot</th>
+                      <th>Restock Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% productList.map(product => { %>
+                    <tr>
+                      <td>
+                        <img class="img-responsive" src="<%= (product.image && `/app/product/image/${product.image}`) 
+                        || 'assets/img/avatars/avatar1.jpg' %>" />
+                      </td>
+                      <td>
+                        <%= product.name %>
+                      </td>
+                      <td>
+                        <%= filters.currency(product.price) %>
+                      </td>
+                      <td>
+                        <%= product.label %>
+                      </td>
+                      <td>
+                        <input class="form-control auto-select" type="number" name="productRestock[<%= product.productId %>]"
+                        min="0" value="<%= jobData.productRestock[product.productId] || 0 %>" <%=isEdit ?
+                        'disabled' : '' %> />
+                      </td>
+                    </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+              <div class="form-group">
+                <div class="col-md-8 col-md-offset-4">
+                  <% if (!isEdit) { %>
+                  <button class="btn btn-sm btn-primary" type="submit">Add</button>
+                  <% } else if (jobData.status == 'active') { %>
+                  <a href="/app/vending/job/finish/<%= jobData.jobId %>" class="btn btn-success">Finish job</a>
+                  <a href="/app/vending/job/cancel/<%= jobData.jobId %>" class="btn btn-danger">Cancel job</a>
+                  <% } %>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>

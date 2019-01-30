@@ -1,0 +1,22 @@
+<tbody>
+  <% dashboardData.histories.map(history => { %>
+  <tr>
+    <td class="text-center" style="width: 100px;"><a><strong>
+          <%= history.name %></strong></a></td>
+    <td class="hidden-xs"><a>
+        <%= history.event %></a></td>
+    <td>
+      <span class="label <%= !filters.startsWith(history.event, 'E_') ? 'label-success' : 'label-danger' %>">
+        <%= !filters.startsWith(history.event, 'E_') ? 'Completed' : 'Error' %>
+      </span>
+    </td>
+    <td class="text-right"><strong>
+        <%= filters.timestamp(history.when) %></strong></td>
+  </tr>
+  <% }) %>
+  <% if (dashboardData.histories.length < 1) { %>
+  <tr>
+    <td class="text-center" colspan="4">No histories yet</td>
+  </tr>
+  <% }%>
+</tbody>

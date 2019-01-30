@@ -1,0 +1,210 @@
+<div class="row">
+  <div class="col-lg-5">
+    <!-- Widget -->
+    <div class="block block-bordered">
+      <div class="block-header">
+        <ul class="block-options">
+          <li>
+            <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo">
+              <i class="si si-refresh"></i></button>
+          </li>
+        </ul>
+        <h3 class="block-title">Vending Machine Status</h3>
+      </div>
+      <div class="block-content">
+        <div class="pull-r-l pull-t push">
+          <table class="block-table text-center bg-gray-lighter border-b">
+            <tbody>
+              <tr>
+                <td class="border-r">
+                  <div class="h1 font-w700">
+                    <%= dashboardData.machine.ipAddress || 'N/A' %>
+                  </div>
+                  <div class="h5 text-muted text-uppercase push-5-t">IP Address</div>
+                </td>
+                <td style="width: 30%">
+                  <div class="push-30 push-30-t">
+                    <!-- <i class="si si-directions fa-3x text-black-op"></i> -->
+                    <i class="fa fa-circle fa-3x text-<%= dashboardData.machine.status == 'ONLINE' ? 'success':'danger' %>"></i>
+                    <div class="h5 text-muted text-uppercase push-5-t">
+                      <%= dashboardData.machine.status || 'N/A' %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="border-t border-b font-w600" colspan="3">
+                  <%= dashboardData.machine.name %>
+                  <%= dashboardData.machine.location ? `@ ${dashboardData.machine.location}` : '' %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <table class="table table-borderless table-striped table-vcenter">
+          <tbody>
+            <tr>
+              <td>
+                <h4>POS System</h4>
+              </td>
+              <td style="text-align: right;"><i class="fa fa-circle fa-2x text-<%= dashboardData.machine.status == 'ONLINE' ? 'success':'danger' %>"></i></td>
+            </tr>
+            <tr>
+              <td>
+                <h4>Acceptor System</h4>
+              </td>
+              <td style="text-align: right;"><i class="fa fa-circle fa-2x text-<%= dashboardData.machine.status == 'ONLINE' ? 'success':'danger' %>"></i></td>
+            </tr>
+            <tr>
+              <td>
+                <h4>Dispenser System</h4>
+              </td>
+              <td style="text-align: right;"><i class="fa fa-circle fa-2x text-<%= dashboardData.machine.status == 'ONLINE' ? 'success':'danger' %>"></i></td>
+            </tr>
+            <tr>
+              <td>
+                <h4>Networking</h4>
+              </td>
+              <td style="text-align: right;"><i class="fa fa-circle fa-2x text-<%= dashboardData.machine.status == 'ONLINE' ? 'success':'danger' %>"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END Notifications Widget -->
+  </div>
+  <div class="col-lg-7">
+    <div class="row">
+      <div class="col-md-4">
+        <a class="block block-link-hover3 text-center">
+          <div class="block-content block-content-full">
+            <div class="h1 font-w700 text-success" data-toggle="countTo" data-to="<%= (dashboardData.machine.recvCoin + dashboardData.machine.recvNotebank) || 0 %>"><%= (dashboardData.machine.recvCoin + dashboardData.machine.recvNotebank) || 0 %></div>
+          </div>
+          <div class="block-content block-content-full block-content-mini bg-gray-lighter text-success font-w600">
+            Total Cash / THB
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="block block-link-hover3 text-center">
+          <div class="block-content block-content-full">
+            <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="<%= dashboardData.machine.recvNotebank || 0 %>"><%= dashboardData.machine.recvNotebank || 0 %></div>
+          </div>
+          <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">
+            Notebanks / THB
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="block block-link-hover3 text-center">
+          <div class="block-content block-content-full">
+            <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="<%= dashboardData.machine.recvCoin || 0 %>"><%= dashboardData.machine.recvCoin || 0 %></div>
+          </div>
+          <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">
+            Coins / THB
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="block block-link-hover3 text-center">
+          <div class="block-content block-content-full">
+            <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="<%= dashboardData.qrCount.qrActiveCount %>"
+              data-after="/<%= dashboardData.qrCount.qrTotal %>"><%= dashboardData.qrCount.qrActiveCount %>/<%= dashboardData.qrCount.qrTotal %></div>
+          </div>
+          <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">
+            QR Code
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="block block-link-hover3 text-center">
+          <div class="block-content block-content-full">
+            <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="<%= dashboardData.machine.coinRemain10 %>"
+              data-after="/300"><%= dashboardData.machine.coinRemain10 %>/300</div>
+          </div>
+          <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">
+            10 THB
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="block block-link-hover3 text-center">
+          <div class="block-content block-content-full">
+            <div class="h1 font-w700 text-primary" data-toggle="countTo" data-to="<%= dashboardData.machine.coinRemain1 %>"
+              data-after="/500"><%= dashboardData.machine.coinRemain1 %>/500</div>
+          </div>
+          <div class="block-content block-content-full block-content-mini bg-gray-lighter text-muted font-w600">
+            1 THB
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Top of things section -->
+<div class="row">
+  <div class="col-lg-6">
+    <div class="block block-opt-refresh-icon4">
+      <div class="block-header bg-gray-lighter">
+        <ul class="block-options">
+          <li>
+            <!-- <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i
+                class="si si-refresh"></i></button> -->
+            <a href="/app/product/list">View more...</a>
+          </li>
+        </ul>
+        <h3 class="block-title">Product Stock</h3>
+      </div>
+      <div class="block-content">
+        <table class="table table-borderless table-striped table-vcenter">
+          <tbody>
+            <% dashboardData.productStock.map(product => { %>
+            <tr>
+              <td class="text-center" style="width: 100px;">
+                <!-- <img src="<%= product.image %>" style="width: 100px;" /> -->
+                <a href="/app/product/edit/<%= product.productId %>"><strong>
+                    <%= product.productId %></strong></a>
+              </td>
+              <td>
+                <%= product.name %>
+              </td>
+              <td class="hidden-xs text-center">
+                <div>
+                  <span class="text-success">
+                    <%= product.stock %>
+                  </span> / 5
+                </div>
+
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END Top Products -->
+  </div>
+  <div class="col-lg-6">
+    <!-- Latest Orders -->
+    <div id="vmLogBlock" class="block block-opt-refresh-icon4">
+      <div class="block-header bg-gray-lighter">
+        <ul class="block-options">
+          <li>
+            <!-- <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo"><i
+                class="si si-refresh"></i></button> -->
+            <a href="/app/monitor/vending-log">View more...</a>
+          </li>
+        </ul>
+        <h3 class="block-title">History Log</h3>
+      </div>
+      <div class="block-content">
+        <table id="vmLog" class="table table-borderless table-striped table-vcenter">
+          <%- include('dashboard_vm_log'); %>
+        </table>
+      </div>
+    </div>
+    <!-- END Latest Orders -->
+  </div>
+</div>
+<!-- END Top Products and Latest Orders -->

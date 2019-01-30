@@ -1,0 +1,95 @@
+<script src="/assets/js/datatables.js"></script>
+<script src="/assets/js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/assets/js/datatables/dataTables.buttons.min.js"></script>
+<script src="/assets/js/datatables/buttons.bootstrap.min.js"></script>
+<script src="/assets/js/datatables/jszip.min.js"></script>
+<script src="/assets/js/datatables/pdfmake.min.js"></script>
+<script src="/assets/js/datatables/vfs_fonts.js"></script>
+<script src="/assets/js/datatables/buttons.html5.min.js"></script>
+<script src="/assets/js/datatables/buttons.print.min.js"></script>
+<script src="/assets/js/datatables/buttons.colVis.min.js"></script>
+
+<script>
+  $(function() {
+    $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
+    // jQuery('.sale-table').dataTable({
+    //   pagingType: "full_numbers",
+    //   columnDefs: [ { orderable: false, targets: [ 4 ] } ],
+    //   pageLength: 10,
+    //   lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+    //   order: [[0, 'desc']]
+    // });
+
+    var table = $('.sale-table').DataTable( {
+        pagingType: "full_numbers",
+        columnDefs: [ { orderable: false, targets: [ 4 ] } ],
+        pageLength: 10,
+        lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+        order: [[0, 'desc']],
+        buttons: [ 'copy', 'excel', 'pdf']
+    } );
+
+    table.buttons().container().appendTo( '#sale-table_wrapper .col-sm-6:eq(0)' );
+  });
+</script>
+
+<main id="main-container">
+
+  <!-- Page Header -->
+  <div class="content bg-gray-lighter">
+    <div class="row items-push">
+      <div class="col-sm-7">
+        <h1 class="page-heading">
+          Sales <small>Monitoring</small>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+        <ol class="breadcrumb push-10-t">
+          <li>Cloud VDMS</li>
+          <li>Monitoring</li>
+          <li><a class="link-effect" href="">Sale</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="block">
+      <div class="block-header">
+        <h3 class="block-title">Latest sale logs</h3>
+      </div>
+      <div id="sale-table_wrapper" class="block-content">
+        <table class="table table-bordered table-striped table-vcenter sale-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Machine</th>
+              <th>Payment Method</th>
+              <th>Sale</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Receive</th>
+              <th class="text-center">Change</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% saleLogData.rows.map(row => { %>
+            <tr data-order-id="<%- row.orderId %>">
+              <td><%= filters.timestamp(row.orderAt) %></td>
+              <td><%= row.machineName %></td>
+              <td><%= row.paymentMethod %></td>
+              <td><%= row.productName %></td>
+              <td class="text-center"><%= filters.currency(row.totalPrice) %></td>
+              <td class="text-center"><%= filters.currency(row.coinInputAmount) %></td>
+              <td class="text-center"><%= filters.currency(row.coinChangeAmount) %></td>
+              <td class="text-center"><%= row.status %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

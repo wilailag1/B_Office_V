@@ -1,0 +1,156 @@
+<script src="/assets/js/datatables.js"></script>
+<script src="/assets/js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/assets/js/datatables/dataTables.buttons.min.js"></script>
+<script src="/assets/js/datatables/buttons.bootstrap.min.js"></script>
+<script src="/assets/js/datatables/jszip.min.js"></script>
+<script src="/assets/js/datatables/pdfmake.min.js"></script>
+<script src="/assets/js/datatables/vfs_fonts.js"></script>
+<script src="/assets/js/datatables/buttons.html5.min.js"></script>
+<script src="/assets/js/datatables/buttons.print.min.js"></script>
+<script src="/assets/js/datatables/buttons.colVis.min.js"></script>
+
+<script>
+  $(function () {
+    // jQuery('.vending-table').dataTable({
+    //   pagingType: "full_numbers",
+    //   columnDefs: [{ orderable: false, targets: [0, 4] }],
+    //   pageLength: 10,
+    //   lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]]
+    // });
+
+    var table = $('.vending-table').DataTable( {
+        pagingType: "full_numbers",
+        columnDefs: [{ orderable: false, targets: [0, 4] }],
+        pageLength: 10,
+        lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+        buttons: [ 'copy', 'excel', 'pdf']
+    } );
+
+    table.buttons().container().appendTo( '#qr_wrapper .col-sm-6:eq(0)' );
+
+  });
+</script>
+
+<main id="main-container">
+
+  <!-- Page Header -->
+  <div class="content bg-gray-lighter">
+    <div class="row items-push">
+      <div class="col-sm-7">
+        <h1 class="page-heading">
+          <%= headTitle %>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+        <ol class="breadcrumb push-10-t">
+          <li>Cloud VDMS</li>
+          <li>Product Management</li>
+          <li><a
+              class="link-effect"
+              href=""
+            >
+              <%= headTitle %></a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="block block-themed">
+      <div class="block-header bg-primary-dark">
+        <div class="block-options-simple">
+          <a
+            class="btn btn-xs btn-primary"
+            href="/app/product-qr/list"
+            data-toggle="tooltip"
+            title=""
+            data-original-title="Refresh"
+          ><i class="fa fa-refresh"></i></a>
+          <a
+            class="btn btn-xs btn-success"
+            href="/app/product-qr/add"
+            data-toggle="tooltip"
+            title=""
+            data-original-title="Add"
+          ><i class="fa fa-plus"></i></a>
+        </div>
+        <h3 class="block-title">
+          <%= headTitle %>
+        </h3>
+      </div>
+      <div id="qr_wrapper" class="block-content">
+        <% if (lastError.length > 0) { %>
+        <div class="alert alert-danger alert-dismissable">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-hidden="true"
+          >&times;</button>
+          <h3 class="font-w300 push-15">Error</h3>
+          <p>
+            <ul>
+              <% lastError.map(error => { %>
+              <li>
+                <%= error %>
+              </li>
+              <% }) %>
+            </ul>
+          </p>
+        </div>
+        <% } %>
+        <table class="table table-bordered table-striped table-vcenter vending-table">
+          <thead>
+            <tr>
+              <th style="width: 120px"></th>
+              <th>Code</th>
+              <th>Status</th>
+              <th>Used at</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% qrCodeData.rows.map(row => { %>
+            <tr>
+              <td class="text-center">
+                <img
+                  class="product-img"
+                  src="<%= (row.qrId != null && `/app/product-qr/generate/${row.qrId}`) 
+                  || 'assets/img/avatars/avatar1.jpg' %>"
+                />
+              </td>
+              <td>
+                <%= row.qrCode %>
+              </td>
+              <td>
+                <%= row.status %>
+              </td>
+              <td>
+                <%= filters.timestamp(row.useAt) %>
+              </td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <a
+                    class="btn btn-xs btn-default"
+                    href="/app/product-qr/edit/<%= row.qrId %>"
+                    data-toggle="tooltip"
+                    title="Edit"
+                  ><i class="fa fa-pencil"></i></a>
+                  <a
+                    class="btn btn-xs btn-danger"
+                    href="/app/product-qr/delete/<%= row.qrId %>"
+                    data-toggle="tooltip"
+                    title="Remove"
+                  ><i class="fa fa-times"></i></a>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

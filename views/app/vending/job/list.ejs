@@ -1,0 +1,143 @@
+<script src="/assets/js/datatables.js"></script>
+<script src="/assets/js/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/assets/js/datatables/dataTables.buttons.min.js"></script>
+<script src="/assets/js/datatables/buttons.bootstrap.min.js"></script>
+<script src="/assets/js/datatables/jszip.min.js"></script>
+<script src="/assets/js/datatables/pdfmake.min.js"></script>
+<script src="/assets/js/datatables/vfs_fonts.js"></script>
+<script src="/assets/js/datatables/buttons.html5.min.js"></script>
+<script src="/assets/js/datatables/buttons.print.min.js"></script>
+<script src="/assets/js/datatables/buttons.colVis.min.js"></script>
+
+<script>
+  $(function () {
+    // jQuery('.vending-table').dataTable({
+    //   pagingType: "full_numbers",
+    //   columnDefs: [{ orderable: false, targets: [4] }],
+    //   pageLength: 10,
+    //   lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]]
+    // });
+
+    var table = $('.vending-table').DataTable( {
+        pagingType: "full_numbers",
+        columnDefs: [{ orderable: false, targets: [4] }],
+        pageLength: 10,
+        lengthMenu: [[5, 10, 15, 20], [5, 10, 15, 20]],
+        buttons: [ 'copy', 'excel', 'pdf']
+    } );
+
+    table.buttons().container().appendTo( '#job_wrapper .col-sm-6:eq(0)' );
+
+  });
+
+  $('.job-not-done')
+    .attr('disabled', true)
+    .click(function (e) {
+      e.preventDefault();
+      swal({
+        title: 'Add new job',
+        text: 'Please finish your job before adding new',
+        type: 'error'
+      });
+    });
+</script>
+
+<main id="main-container">
+
+  <!-- Page Header -->
+  <div class="content bg-gray-lighter">
+    <div class="row items-push">
+      <div class="col-sm-7">
+        <h1 class="page-heading">
+          <%= title %>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+        <ol class="breadcrumb push-10-t">
+          <li>Cloud VDMS</li>
+          <li>Vending Machine</li>
+          <li><a class="link-effect" href="">
+              <%= title %></a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="block block-themed">
+      <div class="block-header bg-primary-dark">
+        <div class="block-options-simple">
+          <a class="btn btn-xs btn-primary" href="/app/vending/job" data-toggle="tooltip" title="" data-original-title="Refresh"><i
+              class="fa fa-refresh"></i></a>
+          <a class="btn btn-xs btn-success <%= jobData.isJobActive > 0 && 'job-not-done' || '' %>" href="/app/vending/job/add"
+            data-toggle="tooltip" title="" data-original-title="Add"><i class="fa fa-plus"></i></a>
+        </div>
+        <h3 class="block-title">
+          <%= headTitle %>
+        </h3>
+      </div>
+      <div id="job_wrapper" class="block-content">
+        <% if (lastError.length > 0) { %>
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h3 class="font-w300 push-15">Error</h3>
+          <p>
+            <ul>
+              <% lastError.map(error => { %>
+              <li>
+                <%= error %>
+              </li>
+              <% }) %>
+            </ul>
+          </p>
+        </div>
+        <% } %>
+        <table class="table table-bordered table-striped table-vcenter vending-table">
+          <thead>
+            <tr>
+              <th>Machine name</th>
+              <th>Create Job</th>
+              <th>Job done</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% jobData.rows.map(row => { %>
+            <tr>
+              <td>
+                <%= row.machineName %>
+              </td>
+              <td>
+                <%= row.createBy %>
+                <%= filters.timestamp(row.createAt) %>
+              </td>
+              <td>
+                <%= row.updateBy %>
+                <%= filters.timestamp(row.updateAt) %>
+              </td>
+              <td>
+                <%= row.status %>
+              </td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <a class="btn btn-xs btn-default" href="/app/vending/job/<%= row.jobId %>" data-toggle="tooltip"
+                    title="View"><i class="fa fa-eye"></i></a>
+                  <% if (row.status == 'active') { %>
+                  <a class="btn btn-xs btn-danger" href="/app/vending/job/cancel/<%= row.jobId %>" data-toggle="tooltip"
+                    title="Cancel"><i class="fa fa-times"></i></a>
+                  <% } else { %>
+                  <button class="btn btn-xs btn-danger" disabled /><i class="fa fa-times"></i></button>
+                  <% } %>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

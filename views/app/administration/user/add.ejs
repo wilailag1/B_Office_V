@@ -1,0 +1,99 @@
+<!-- Page JS Plugins -->
+<script src="/assets/js/plugins/select2/select2.full.min.js"></script>
+<script>
+  jQuery('.js-select2').select2();
+</script>
+
+<main id="main-container">
+  <!-- Page Header -->
+  <div class="content bg-gray-lighter">
+    <div class="row items-push">
+      <div class="col-sm-7">
+        <h1 class="page-heading">
+          <%= headTitle %>
+        </h1>
+      </div>
+      <div class="col-sm-5 text-right hidden-xs">
+        <ol class="breadcrumb push-10-t">
+          <li>Cloud VDMS</li>
+          <li>Administration</li>
+          <li>User</li>
+          <li><a class="link-effect" href=""><%= headTitle %></a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content content-boxed">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block block-themed">
+          <div class="block-header bg-primary-dark">
+            <h3 class="block-title">User info</h3>
+          </div>
+          <div class="block-content">
+            <% if (lastError.length > 0) { %>
+              <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h3 class="font-w300 push-15">Error</h3>
+                <p><%= lastError %></p>
+              </div>
+            <% } %>
+            <form class="js-validation-bootstrap form-horizontal" action="" method="post">
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="userId">User ID</label>
+                <div class="col-md-7">
+                  <input class="form-control" type="text" id="userId" name="userId"
+                    value="<%= userData.userId %>" <% if (userData.userId) { %>readonly<% } %>
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="password">Password</label>
+                <div class="col-md-7">
+                  <input class="form-control" type="password" id="password" name="password"
+                  placeholder="<%= isEdit ? 'Leave this field blank to change nothing' : '' %>" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="roleId">Role <span class="text-danger">*</span></label>
+                <div class="col-md-7">
+                  <select class="js-select2 form-control" id="roleId" name="roleId" 
+                  style="width: 100%;" value="<%= userData.roleId %>" data-placeholder="Assign role for user">
+                    <option></option>
+                    <% roleOptions.map(role => { %>
+                      <option value="<%= role.value %>" <%= role.value == userData.roleId ? 'selected' : '' %>><%= role.text %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="fullName">Full name <span class="text-danger">*</span></label>
+                <div class="col-md-7">
+                  <input class="form-control" type="text" id="fullName" name="fullName" 
+                    value="<%= userData.fullName %>"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="phone">Phone</label>
+                <div class="col-md-7">
+                  <input class="form-control" type="text" id="phone" name="phone" 
+                  placeholder="To contact with this user" value="<%= userData.phone %>" autocomplete="off"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-8 col-md-offset-4">
+                  <button class="btn btn-sm btn-primary" type="submit"><%= isEdit ? 'Save' : 'Add' %></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
