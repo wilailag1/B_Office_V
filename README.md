@@ -12,3 +12,4 @@ This project is Example backoffice of WebApp(vending machine project)
 
 # RUN
 #### `npm run dev`
+#### `localhost port:3000`
