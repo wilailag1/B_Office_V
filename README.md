@@ -6,3 +6,9 @@ This project is Example backoffice of WebApp(vending machine project)
 **Express**
 [Link](https://www.npmjs.com/package/express) 
 #### `npm install express`
+**Socket**
+[LINK](https://www.npmjs.com/package/socket.io)
+#### `npm install socket.io`
+
+# RUN
+#### 'npm run dev'
