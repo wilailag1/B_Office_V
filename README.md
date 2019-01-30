@@ -11,4 +11,4 @@ This project is Example backoffice of WebApp(vending machine project)
 #### `npm install socket.io`
 
 # RUN
-#### 'npm run dev'
+#### `npm run dev`
